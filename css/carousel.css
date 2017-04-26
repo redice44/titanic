@@ -28,10 +28,9 @@ body {
   height: 30rem;
   background: 
     linear-gradient(
-      rgba(0, 0, 0, 0.5),
-      rgba(0, 0, 0, 0.5)),
+      rgba(0, 0, 0, 0.65),
+      rgba(0, 0, 0, 0.65)),
     url('../assets/titanic.jpeg');
-  background-position: 0 -33px, 0 -200px;
   background-repeat: no-repeat, no-repeat;
   background-size: cover, cover;
 }

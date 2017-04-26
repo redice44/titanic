@@ -1,1 +1,4 @@
-submissions
+data/submissions*
+data/feature*
+data/model*
+data/training*

@@ -20,12 +20,20 @@ body {
 .carousel-caption {
   z-index: 10;
   bottom: 3rem;
+  /*color: #5a5a5a;*/
 }
 
 /* Declare heights because of positioning of img element */
 .carousel-item {
-  height: 32rem;
-  background-color: #777;
+  height: 30rem;
+  background: 
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)),
+    url('../assets/titanic.jpeg');
+  background-position: 0 -33px, 0 -200px;
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover, cover;
 }
 .carousel-item > img {
   position: absolute;
@@ -33,6 +41,10 @@ body {
   left: 0;
   min-width: 100%;
   height: 32rem;
+}
+
+.carousel-inner {
+  
 }
 
 
@@ -58,6 +70,10 @@ body {
 
 .featurette-divider {
   margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+}
+
+.featurette-subdivider {
+  margin: 2rem 0;
 }
 
 /* Thin out the marketing headings */
@@ -86,6 +102,6 @@ body {
 
 @media (min-width: 62em) {
   .featurette-heading {
-    margin-top: 7rem;
+    /*margin-top: 7rem;*/
   }
 }

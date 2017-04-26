@@ -74,7 +74,7 @@ function makeStackedBarGraph(svg, data, key, field) {
 var dataSets = [
   // {
   //   label: 'All',
-  //   key: ["Survived", "Died"],
+  //   key: ['Survived', 'Died'],
   //   data: [
   //     {"All":"female","Survived":233,"Total":314},
   //     {"All":"1st Class","Survived":136,"Total":216},
@@ -99,28 +99,27 @@ var dataSets = [
   //     {"All":"6-Parch","Survived":0,"Total":1},
   //     {"All":"8-SibSp","Survived":0,"Total":7}
   //   ],
-  //   svg: 'all-svg'
-  // }, {
+  // },
   {
     label: 'Sex',
-    key: ["Survived", "Died"],
+    key: ['Survived', 'Died'],
     data: [
       {"Sex":"Female","Survived":233,"Total":314},
       {"Sex":"Male","Survived":109,"Total":577}
-    ],
-    svg: 'sex-svg'
-  }, {
+    ]
+  },
+  {
     label: 'Pclass',
-    key: ["Survived", "Died"],
+    key: ['Survived', 'Died'],
     data: [
       {"Pclass":"1st Class","Survived":136,"Total":216},
       {"Pclass":"2nd Class","Survived":87,"Total":184},
       {"Pclass":"3rd Class","Survived":119,"Total":491}
-    ],
-    svg: 'class-svg'
-  }, {
+    ]
+  },
+  {
     label: 'SexClass',
-    key: ["Survived", "Died"],
+    key: ['Survived', 'Died'],
     data: [
       {"SexClass":"F 1st","Survived":91,"Total":94 ,},
       {"SexClass":"F 2nd","Survived":70,"Total":76 ,},
@@ -128,11 +127,11 @@ var dataSets = [
       {"SexClass":"M 1st","Survived":45,"Total":122,},
       {"SexClass":"M 2nd","Survived":17,"Total":108,},
       {"SexClass":"M 3rd","Survived":47,"Total":347,}
-    ],
-    svg: 'sex-class-svg'
-  }, {
+    ]
+  },
+  {
     label: 'Age',
-    key: ["Survived", "Died"],
+    key: ['Survived', 'Died'],
     data: [
       {"Age":0,"Survived":61,"Total":113},
       {"Age":5,"Survived":61,"Total":118},
@@ -142,22 +141,22 @@ var dataSets = [
       {"Age":7,"Survived":38,"Total":101},
       {"Age":6,"Survived":39,"Total":114},
       {"Age":3,"Survived":15,"Total":112}
-    ],
-    svg: 'age-svg'
-  }, {
+    ]
+  },
+  {
     label: 'Fare',
-    key: ["Survived", "Died"],
+    key: ['Survived', 'Died'],
     data: [
       {"Fare":4,"Survived":113,"Total":176},
       {"Fare":3,"Survived":80,"Total":180},
       {"Fare":2,"Survived":73,"Total":171},
       {"Fare":0,"Survived":52,"Total":241},
       {"Fare":1,"Survived":24,"Total":123}
-    ],
-    svg: 'fare-svg'
-  }, {
+    ]
+  },
+  {
     label: 'Family',
-    key: ["Survived", "Died"],
+    key: ['Survived', 'Died'],
     data: [
       {"Family":4,"Survived":21,"Total":29},
       {"Family":3,"Survived":59,"Total":102},
@@ -168,28 +167,27 @@ var dataSets = [
       {"Family":6,"Survived":3,"Total":22},
       {"Family":8,"Survived":0,"Total":6},
       {"Family":11,"Survived":0,"Total":7}
-    ],
-    svg: 'family-svg'
-  }, {
+    ]
+  },
+  {
     label: 'Embarked',
-    key: ["Survived", "Died"],
+    key: ['Survived', 'Died'],
     data: [
       {"Embarked":0,"Survived":93,"Total":168},
       {"Embarked":1,"Survived":30,"Total":77},
       {"Embarked":2,"Survived":219,"Total":646}
-    ],
-    svg: 'embarked-svg'
-  }, {
+    ]
+  },
+  {
     label: 'Title',
-    key: ["Survived", "Died"],
+    key: ['Survived', 'Died'],
     data: [
       {"Title":1,"Survived":100,"Total":126},
       {"Title":2,"Survived":130,"Total":185},
       {"Title":3,"Survived":23,"Total":40},
       {"Title":4,"Survived":8,"Total":23},
       {"Title":5,"Survived":81,"Total":517}
-    ],
-    svg: 'title-svg'
+    ]
   }
 ];
 
@@ -201,10 +199,78 @@ dataSets = dataSets.map(function(ds) {
   return ds;
 });
 
-dataSets.forEach(function(d, i) {
-  makeStackedBarGraph(d3.select('#svg' + (i+1)), d.data, d.key, d.label);
-});
+// dataSets.forEach(function(d, i) {
+//   makeStackedBarGraph(d3.select('#svg' + (i+1)), d.data, d.key, d.label);
+// });
 
+var data = [
+  {"Model":"9", "Accuracy": 90.57 },
+  {"Model":"10", "Accuracy": 89.90 },
+  {"Model":"1", "Accuracy": 87.32 },
+  {"Model":"2", "Accuracy": 85.86 },
+  {"Model":"3", "Accuracy": 85.52 },
+  {"Model":"0", "Accuracy": 84.62 },
+  {"Model":"4", "Accuracy": 84.62 },
+  {"Model":"13", "Accuracy": 83.50 },
+  {"Model":"11", "Accuracy": 83.39 },
+  {"Model":"16", "Accuracy": 83.28 },
+  {"Model":"14", "Accuracy": 81.59 },
+  {"Model":"12", "Accuracy": 81.26 },
+  {"Model":"7", "Accuracy": 80.58 },
+  {"Model":"5", "Accuracy": 79.69 },
+  {"Model":"6", "Accuracy": 78.0 },
+  {"Model":"15", "Accuracy": 61.62 },
+  {"Model":"8", "Accuracy": 58.81 }
+];
+
+// set the dimensions and margins of the graph
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 500 - margin.left - margin.right,
+    height = 350 - margin.top - margin.bottom;
+
+// set the ranges
+var x = d3.scaleBand()
+          .range([0, width])
+          .padding(0.1);
+var y = d3.scaleLinear()
+          .range([height, 0]);
+          
+// append the svg object to the body of the page
+// append a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("#model-chart").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+  var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+
+  // Scale the range of the data in the domains
+  x.domain(data.map(function(d) { return d.Model; }));
+  y.domain([0, d3.max(data, function(d) { return d.Accuracy; })]);
+
+  // append the rectangles for the bar chart
+  svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.Model); })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) { return y(d.Accuracy); })
+      .attr("height", function(d) { return height - y(d.Accuracy); })
+      .style("fill", function(d, i) { return color(i); });
+
+  // add the x Axis
+  svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // add the y Axis
+  svg.append("g")
+      .call(d3.axisLeft(y));
 
 
 

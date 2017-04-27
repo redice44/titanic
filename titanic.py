@@ -16,15 +16,7 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neural_network import MLPClassifier
 
-training_features = pd.read_csv('./data/train.csv')
-testing_features = pd.read_csv('./data/test.csv')
-
-# print(training_features.head(5))
-training_features.head(5).to_csv('./data/training_features-5.csv')
-print(training_features.info())
-# print(training_features.describe(include='all'))
-training_features.describe(include='all').to_csv('./data/training_features-describe.csv')
-
+# Utility to create common charts with sum, size, and mean values.
 def chartFeatures(dataFrame, features, group, showLog=False):
   chart = dataFrame[features].groupby(group).agg([np.sum, np.size, np.mean])
   if showLog:
@@ -33,26 +25,7 @@ def chartFeatures(dataFrame, features, group, showLog=False):
 
   return chart
 
-featureCharts = [
-  chartFeatures(training_features, features=['Sex', 'Survived'], group=['Sex']),
-  chartFeatures(training_features, features=['Pclass', 'Survived'], group=['Pclass']),
-  chartFeatures(training_features, features=['SibSp', 'Survived'], group=['SibSp']),
-  chartFeatures(training_features, features=['Parch', 'Survived'], group=['Parch']),
-  chartFeatures(training_features, features=['Embarked', 'Survived'], group=['Embarked'])
-]
-
-# Pclass Feature
-featureCharts[1] = featureCharts[1].rename(index={1: '1st Class', 2: '2nd Class', 3: '3rd Class'})
-
-# SibSp Feature
-featureCharts[2] = featureCharts[2].rename(index={0: '0-SibSp', 1: '1-SibSp', 2: '2-SibSp', 3: '3-SibSp', 4: '4-SibSp', 5: '5-SibSp', 8: '8-SibSp'})
-
-# Parch Feature
-featureCharts[3] = featureCharts[3].rename(index={0: '0-Parch', 1: '1-Parch', 2: '2-Parch', 3: '3-Parch', 4: '4-Parch', 5: '5-Parch', 6: '6-Parch'})
-
-# Embarked Feature
-featureCharts[4] = featureCharts[4].rename(index={'C': 'Cherbourg', 'Q': 'Queenstown', 'S': 'Southampton'})
-
+# Formats common Json output
 def formatJson(out):
   out = out.replace('\"[\"Survived\",', '')
   out = out.replace(']\"', '')
@@ -60,6 +33,7 @@ def formatJson(out):
   out = out.replace('\"size\"', '\"Total\"')
   return out
 
+# Saves DataFrame as .csv and .json
 def saveFiles(df, fileName):
   path = './data/'
   df.to_csv(path + fileName + '.csv')
@@ -70,34 +44,23 @@ def saveFiles(df, fileName):
 
   return 
 
-# print(pd.concat(featureCharts).sort_values(by=[('Survived', 'mean')], ascending=False))
-saveFiles(pd.concat(featureCharts).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-all')
-
 def preprocessSex(df, saveFile=False, printLog=False):
   df['Sex'] = df['Sex'].map( { 'female': 0, 'male': 1 }).astype(int)
 
   if printLog:
-    print(df[['Sex', 'Survived']].groupby(['Sex']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['Sex', 'Survived'], ['Sex']).sort_values(by=[('Survived', 'mean')], ascending=False))
 
   if saveFile:
-    saveFiles(df[['Sex', 'Survived']].groupby(['Sex']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-sex')
-    # out = df[['Sex', 'Survived']].groupby(['Sex']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False).to_json(orient='index')
-    # out = formatJson(out)
-    # with open('./data/feature-sex.json', 'w') as f:
-    #   f.write(out)
+    saveFiles(chartFeatures(df, ['Sex', 'Survived'], ['Sex']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-sex')
 
   return df
 
 def preprocessClass(df, saveFile=False, printLog=False):
   if printLog:
-    print(df[['Pclass', 'Survived']].groupby(['Pclass']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['Pclass', 'Survived'], ['Pclass']).sort_values(by=[('Survived', 'mean')], ascending=False))
 
   if saveFile:
-    saveFiles(df[['Pclass', 'Survived']].groupby(['Pclass']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False),'feature-class')
-    # out = df[['Pclass', 'Survived']].groupby(['Pclass']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False).to_json(orient='index')
-    # out = formatJson(out)
-    # with open('./data/feature-class.json', 'w') as f:
-    #   f.write(out)
+    saveFiles(chartFeatures(df, ['Pclass', 'Survived'], ['Pclass']).sort_values(by=[('Survived', 'mean')], ascending=False),'feature-class')
 
   return df
 
@@ -106,21 +69,12 @@ def preprocessSexClass(df, saveFile=False, printLog=False):
   df['SexClass'] = df['SexClass'].astype(int)
 
   if printLog:
-    print(df[['SexClass', 'Survived']].groupby(['SexClass']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['SexClass', 'Survived'], ['SexClass']).sort_values(by=[('Survived', 'mean')], ascending=False))
 
   if saveFile:
-    saveFiles(df[['SexClass', 'Survived']].groupby(['SexClass']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-sexclass')
-    # out = df[['SexClass', 'Survived']].groupby(['SexClass']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False).to_json(orient='index')
-    # out = formatJson(out)
-    # with open('./data/feature-sexclass.json', 'w') as f:
-    #   f.write(out)    
+    saveFiles(chartFeatures(df, ['SexClass', 'Survived'], ['SexClass']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-sexclass')
 
   return df
-
-
-
-# g = sns.FacetGrid(training_features, col='Survived')
-# g.map(plt.hist, 'Age', bins=20)
 
 def fillAge(df):
   sexClassMean = np.zeros((6))
@@ -136,12 +90,7 @@ def fillAge(df):
 
 def preprocessAge(df, saveFile=False, printLog=False):
   if saveFile:
-    saveFiles(df[['Age', 'Survived']].groupby(['Age']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-age')
-    # out = df[['Age', 'Survived']].groupby(['Age']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False).to_json(orient='index')
-    # out = formatJson(out)
-    # with open('./data/feature-age.json', 'w') as f:
-    #   f.write(out)    
-
+    saveFiles(chartFeatures(df, ['Age', 'Survived'], ['Age']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-age')
 
   df = fillAge(df)
   freq = df['Age'].mode()[0]
@@ -152,16 +101,12 @@ def preprocessAge(df, saveFile=False, printLog=False):
   df['AgeFreq'] = pd.qcut(df['Age'], cutSize)
 
   if printLog:
-    print(df[['AgeRange', 'Survived']].groupby(['AgeRange']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
-    print(df[['AgeFreq', 'Survived']].groupby(['AgeFreq']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['AgeRange', 'Survived'], ['AgeRange']).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['AgeFreq', 'Survived'], ['AgeFreq']).sort_values(by=[('Survived', 'mean')], ascending=False))
 
   if saveFile:
-    saveFiles(df[['AgeRange', 'Survived']].groupby(['AgeRange']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-agerange-pre')
-    # out = df[['AgeRange', 'Survived']].groupby(['AgeRange']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False).to_json(orient='index')
-    # out = formatJson(out)
-
-
-    saveFiles(df[['AgeFreq', 'Survived']].groupby(['AgeFreq']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-agefreq-pre')
+    saveFiles(chartFeatures(df, ['AgeRange', 'Survived'], ['AgeRange']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-agerange-pre')
+    saveFiles(chartFeatures(df, ['AgeFreq', 'Survived'], ['AgeFreq']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-agefreq-pre')
 
   catlen = len(df['AgeRange'].cat.categories)
   df['AgeRange'].cat.categories = [str(i) for i in range(0, catlen)]
@@ -172,15 +117,14 @@ def preprocessAge(df, saveFile=False, printLog=False):
   df['AgeFreq'] = df['AgeFreq'].astype(int)
 
   if printLog:
-    print(df[['AgeRange', 'Survived']].groupby(['AgeRange']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
-    print(df[['AgeFreq', 'Survived']].groupby(['AgeFreq']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['AgeRange', 'Survived'], ['AgeRange']).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['AgeFreq', 'Survived'], ['AgeFreq']).sort_values(by=[('Survived', 'mean')], ascending=False))
 
   if saveFile:
-    saveFiles(df[['AgeRange', 'Survived']].groupby(['AgeRange']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-agerange-post')
-    saveFiles(df[['AgeFreq', 'Survived']].groupby(['AgeFreq']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-agefreq-post')
+    saveFiles(chartFeatures(df, ['AgeRange', 'Survived'], ['AgeRange']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-agerange-post')
+    saveFiles(chartFeatures(df, ['AgeFreq', 'Survived'], ['AgeFreq']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-agefreq-post')
 
   return df
-
 
 def fillFare(df):
   sexClassMean = np.zeros((6))
@@ -204,12 +148,12 @@ def preprocessFare(df, saveFile=False, printLog=False):
   df['FareFreq'] = pd.qcut(df['Fare'], cutSize)
 
   if printLog:
-    print(df[['FareRange', 'Survived']].groupby(['FareRange']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
-    print(df[['FareFreq', 'Survived']].groupby(['FareFreq']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['FareRange', 'Survived'], ['FareRange']).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['FareFreq', 'Survived'], ['FareFreq']).sort_values(by=[('Survived', 'mean')], ascending=False))
 
   if saveFile:
-    saveFiles(df[['FareRange', 'Survived']].groupby(['FareRange']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-farerange-pre')
-    saveFiles(df[['FareFreq', 'Survived']].groupby(['FareFreq']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-farefreq-pre')
+    saveFiles(chartFeatures(df, ['FareRange', 'Survived'], ['FareRange']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-farerange-pre')
+    saveFiles(chartFeatures(df, ['FareFreq', 'Survived'], ['FareFreq']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-farefreq-pre')
 
   catlen = len(df['FareRange'].cat.categories)
   df['FareRange'].cat.categories = [str(i) for i in range(0, catlen)]
@@ -220,61 +164,56 @@ def preprocessFare(df, saveFile=False, printLog=False):
   df['FareFreq'] = df['FareFreq'].astype(int)
 
   if printLog:
-    print(df[['FareRange', 'Survived']].groupby(['FareRange']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
-    print(df[['FareFreq', 'Survived']].groupby(['FareFreq']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['FareRange', 'Survived'], ['FareRange']).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['FareFreq', 'Survived'], ['FareFreq']).sort_values(by=[('Survived', 'mean')], ascending=False))
 
   if saveFile:
-    saveFiles(df[['FareRange', 'Survived']].groupby(['FareRange']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-farerange-post')
-    saveFiles(df[['FareFreq', 'Survived']].groupby(['FareFreq']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-farefreq-post')
+    saveFiles(chartFeatures(df, ['FareRange', 'Survived'], ['FareRange']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-farerange-post')
+    saveFiles(chartFeatures(df, ['FareFreq', 'Survived'], ['FareFreq']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-farefreq-post')
 
   return df
-
 
 def preprocessSibSp(df, saveFile=False, printLog=False):
   if printLog:
-    print(df[['SibSp', 'Survived']].groupby(['SibSp']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['SibSp', 'Survived'], ['SibSp']).sort_values(by=[('Survived', 'mean')], ascending=False))
 
   if saveFile:
-    saveFiles(df[['SibSp', 'Survived']].groupby(['SibSp']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-sibsp')
+    saveFiles(chartFeatures(df, ['SibSp', 'Survived'], ['SibSp']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-sibsp')
 
   return df
-
 
 def preprocessParch(df, saveFile=False, printLog=False):
   if printLog:
-    print(df[['Parch', 'Survived']].groupby(['Parch']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['Parch', 'Survived'], ['Parch']).sort_values(by=[('Survived', 'mean')], ascending=False))
 
   if saveFile:
-    saveFiles(df[['Parch', 'Survived']].groupby(['Parch']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-parch')
+    saveFiles(chartFeatures(df, ['Parch', 'Survived'], ['Parch']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-parch')
     
   return df
-
 
 def preprocessFamily(df, saveFile=False, printLog=False):
   df['FamilySize'] = df['SibSp'] + df['Parch'] + 1
   df['FamilySize'] = df['FamilySize'].astype(int)
 
   if printLog:
-    print(df[['FamilySize', 'Survived']].groupby(['FamilySize']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['FamilySize', 'Survived'], ['FamilySize']).sort_values(by=[('Survived', 'mean')], ascending=False))
 
   if saveFile:
-    saveFiles(df[['FamilySize', 'Survived']].groupby(['FamilySize']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-family')
+    saveFiles(chartFeatures(df, ['FamilySize', 'Survived'], ['FamilySize']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-family')
 
   return df
-
 
 def preprocessEmbark(df, saveFile=False, printLog=False):
   df['Embarked'] = df['Embarked'].fillna(df.Embarked.dropna().mode()[0])
   df['Embarked'] = df['Embarked'].map( { 'C': 0, 'Q': 1, 'S': 2 }).astype(int)
 
   if printLog:
-    print(df[['Embarked', 'Survived']].groupby(['Embarked']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['Embarked', 'Survived'], ['Embarked']).sort_values(by=[('Survived', 'mean')], ascending=False))
 
   if saveFile:
-    saveFiles(df[['Embarked', 'Survived']].groupby(['Embarked']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-embarked')
+    saveFiles(chartFeatures(df, ['Embarked', 'Survived'], ['Embarked']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-embarked')
 
   return df
-
 
 def preprocessTitle(df, saveFile=False, printLog=False):
   df['Title'] = df.Name.str.extract(' ([A-Za-z]+)\.', expand=False)
@@ -286,67 +225,20 @@ def preprocessTitle(df, saveFile=False, printLog=False):
   df['Title'] = df['Title'].astype(int)
 
   if printLog:
-    print(df[['Title', 'Survived']].groupby(['Title']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False))
+    print(chartFeatures(df, ['Title', 'Survived'], ['Title']).sort_values(by=[('Survived', 'mean')], ascending=False))
 
   if saveFile:
-    saveFiles(df[['Title', 'Survived']].groupby(['Title']).agg([np.sum, np.size, np.mean]).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-title')
+    saveFiles(chartFeatures(df, ['Title', 'Survived'], ['Title']).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-title')
 
   return df
 
-
 def preprocessDrops(df, printLog=False):
-  df = df.drop(['Name', 'Ticket', 'Cabin', 'AgeRange', 'FareRange', 'Age', 'Fare', 'SibSp', 'Parch', 'Sex', 'Pclass'], axis=1)
+  df = df.drop(['Name', 'Ticket', 'Cabin', 'AgeRange', 'FareRange', 'Sex', 'Age', 'Fare', 'SibSp', 'Parch', 'Pclass'], axis=1)
 
   if printLog:
     print(df.columns.values)
     
   return df
-
-training_features = preprocessSex(training_features, saveFile=True)
-testing_features = preprocessSex(testing_features)
-training_features = preprocessClass(training_features, saveFile=True)
-testing_features = preprocessClass(testing_features)
-training_features = preprocessSexClass(training_features, saveFile=True)
-testing_features = preprocessSexClass(testing_features)
-training_features = preprocessAge(training_features, saveFile=True)
-testing_features = preprocessAge(testing_features)
-training_features = preprocessFare(training_features, saveFile=True)
-testing_features = preprocessFare(testing_features)
-training_features = preprocessSibSp(training_features, saveFile=True)
-testing_features = preprocessSibSp(testing_features)
-training_features = preprocessParch(training_features, saveFile=True)
-testing_features = preprocessParch(testing_features)
-training_features = preprocessFamily(training_features, saveFile=True)
-testing_features = preprocessFamily(testing_features)
-training_features = preprocessEmbark(training_features, saveFile=True)
-testing_features = preprocessEmbark(testing_features)
-training_features = preprocessTitle(training_features, saveFile=True)
-testing_features = preprocessTitle(testing_features)
-training_features = preprocessDrops(training_features, printLog=True)
-testing_features = preprocessDrops(testing_features)
-
-def logisticRegressionModel(training_features):
-  X_train = training_features.drop(['Survived', 'PassengerId'], axis=1)
-  Y_train = training_features['Survived']
-
-  
-  logreg = LogisticRegression()
-  logreg.fit(X_train, Y_train)
-  acc = round(logreg.score(X_train, Y_train) * 100, 2)
-
-  # print(train_df.columns)
-  # print(train_df.columns.delete([0, 1]))
-  coeff_df = pd.DataFrame(training_features.columns.delete([0, 1]))
-  # print(coeff_df)
-  coeff_df.columns = ['Feature']
-  coeff_df['Correlation'] = pd.Series(logreg.coef_[0])
-  # print(logreg.coef_)
-
-  print('\nLogistic Regression')
-  print(coeff_df.sort_values(by='Correlation', ascending=False))
-  print(acc)
-
-  return
 
 def trainWithModel(X_train, Y_train, X_test, model):
   model.fit(X_train, Y_train)
@@ -373,7 +265,7 @@ def testModels(dfs, saveFile=False, printLog=False):
     print(modelsAcc.sort_values(by='Score', ascending=False))
 
   if saveFile:
-    modelsAcc.sort_values(by='Score', ascending=False).to_csv('./data/models-score.csv')
+    saveFiles(modelsAcc.sort_values(by='Score', ascending=False), 'models-score')
 
   return [models, modelsAcc]
 
@@ -382,35 +274,82 @@ def makeCrossSection(df, crossSize):
   maxRange = df['PassengerId'].max() + 1
   selection = rnd.sample(range(minRange, maxRange), crossSize)
 
-  return (df[df['PassengerId'].isin(selection)], df[~df['PassengerId'].isin(selection)].drop(['Survived'], axis=1))
+  return (df[~df['PassengerId'].isin(selection)], df[df['PassengerId'].isin(selection)].drop(['Survived'], axis=1))
 
 
+# Initialize Datasets
+training_features = pd.read_csv('./data/train.csv')
+testing_features = pd.read_csv('./data/test.csv')
 
+# Get some basic info about the dataset
+training_features.head(5).to_csv('./data/training_features-5.csv')
+print(training_features.info())
+training_features.describe(include='all').to_csv('./data/training_features-describe.csv')
 
-# fullValidation = testModels([training_features, testing_features], saveFile=True)
+# Create a list of all features' survival rates
+featureCharts = [
+  chartFeatures(training_features, features=['Sex', 'Survived'], group=['Sex']),
+  chartFeatures(training_features, features=['Pclass', 'Survived'], group=['Pclass']),
+  chartFeatures(training_features, features=['SibSp', 'Survived'], group=['SibSp']),
+  chartFeatures(training_features, features=['Parch', 'Survived'], group=['Parch']),
+  chartFeatures(training_features, features=['Embarked', 'Survived'], group=['Embarked'])
+]
 
-# crossValidations = [
-#   testModels(makeCrossSection(training_features, 300)),
-#   testModels(makeCrossSection(training_features, 300)),
-#   testModels(makeCrossSection(training_features, 300)),
-#   testModels(makeCrossSection(training_features, 300)),
-#   testModels(makeCrossSection(training_features, 300)),
-#   testModels(makeCrossSection(training_features, 300)),
-#   testModels(makeCrossSection(training_features, 300)),
-#   testModels(makeCrossSection(training_features, 300)),
-#   testModels(makeCrossSection(training_features, 300))
-# ]
+# Renaming Pclass Feature
+featureCharts[1] = featureCharts[1].rename(index={1: '1st Class', 2: '2nd Class', 3: '3rd Class'})
 
-# print(pd.concat(crossValidations[0]).sort_values(by='Score', ascending=False))
-# print(crossValidations[1][0])#.sort_values(by='Score', ascending=False))
+# Renaming SibSp Feature
+featureCharts[2] = featureCharts[2].rename(index={0: '0-SibSp', 1: '1-SibSp', 2: '2-SibSp', 3: '3-SibSp', 4: '4-SibSp', 5: '5-SibSp', 8: '8-SibSp'})
 
-# for i in range(0, len(fullValidation[0])):
-#   submission = pd.DataFrame({
-#     'PassengerId': testing_features['PassengerId'],
-#     'Survived': fullValidation[0][i][1]
-#   })
+# Renaming Parch Feature
+featureCharts[3] = featureCharts[3].rename(index={0: '0-Parch', 1: '1-Parch', 2: '2-Parch', 3: '3-Parch', 4: '4-Parch', 5: '5-Parch', 6: '6-Parch'})
 
-#   # print(submission.shape)
-#   submission.to_csv('./data/submissions-model-' + str(i) + '.csv')
+# Renaming Embarked Feature
+featureCharts[4] = featureCharts[4].rename(index={'C': 'Cherbourg', 'Q': 'Queenstown', 'S': 'Southampton'})
 
-# logisticRegressionModel(training_features)
+saveFiles(pd.concat(featureCharts).sort_values(by=[('Survived', 'mean')], ascending=False), 'feature-all')
+
+# Preprocess the data
+training_features = preprocessSex(training_features, saveFile=True)
+testing_features = preprocessSex(testing_features)
+training_features = preprocessClass(training_features, saveFile=True)
+testing_features = preprocessClass(testing_features)
+training_features = preprocessSexClass(training_features, saveFile=True)
+testing_features = preprocessSexClass(testing_features)
+training_features = preprocessAge(training_features, saveFile=True)
+testing_features = preprocessAge(testing_features)
+training_features = preprocessFare(training_features, saveFile=True)
+testing_features = preprocessFare(testing_features)
+training_features = preprocessSibSp(training_features, saveFile=True)
+testing_features = preprocessSibSp(testing_features)
+training_features = preprocessParch(training_features, saveFile=True)
+testing_features = preprocessParch(testing_features)
+training_features = preprocessFamily(training_features, saveFile=True)
+testing_features = preprocessFamily(testing_features)
+training_features = preprocessEmbark(training_features, saveFile=True)
+testing_features = preprocessEmbark(testing_features)
+training_features = preprocessTitle(training_features, saveFile=True)
+testing_features = preprocessTitle(testing_features)
+training_features = preprocessDrops(training_features, printLog=True)
+testing_features = preprocessDrops(testing_features)
+
+# Train and test classifiers on full dataset
+fullValidation = testModels([training_features, testing_features], saveFile=True, printLog=True)
+
+# Cross Validation 
+crossValidations = [
+  testModels(makeCrossSection(training_features, 300)),
+  testModels(makeCrossSection(training_features, 300)),
+  testModels(makeCrossSection(training_features, 300)),
+  testModels(makeCrossSection(training_features, 300)),
+  testModels(makeCrossSection(training_features, 300)),
+  testModels(makeCrossSection(training_features, 300)),
+  testModels(makeCrossSection(training_features, 300)),
+  testModels(makeCrossSection(training_features, 300)),
+  testModels(makeCrossSection(training_features, 300)),
+  testModels(makeCrossSection(training_features, 300))
+]
+
+# Get the mean of all of the cross validations
+print(pd.concat(list(map(lambda s: s[1], crossValidations))).groupby(['Model']).agg([np.mean]).sort_values(by=[('Score', 'mean')], ascending=False))
+saveFiles(pd.concat(list(map(lambda s: s[1], crossValidations))).groupby(['Model']).agg([np.mean]).sort_values(by=[('Score', 'mean')], ascending=False), 'cross-validation')

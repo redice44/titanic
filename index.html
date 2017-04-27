@@ -71,81 +71,159 @@
       <div class="row featurette">
         <div class="col-md-12">
           <h2 class="featurette-heading">Data Descriptions</h2>
-          <p class="lead">
-            <div class="table-responsive">
-              <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Feature</th>
-                  <th>Data Type</th>
-                  <th>Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>PassengerId</td>
-                  <td>Unique</td>
-                  <td>The ID of the passenger</td>
-                </tr>
-                <tr>
-                  <td>Survived</td>
-                  <td>Binary</td>
-                  <td>Survival (0 = No, 1 = Yes)</td>
-                </tr>
-                <tr>
-                  <td>Pclass</td>
-                  <td>Ordinal</td>
-                  <td>Class of the Ticket (1 = 1st class (upper), 2 = 2nd class (middle), 3 = 3rd class (lower))</td>
-                </tr>
-                <tr>
-                  <td>Name</td>
-                  <td>Unique</td>
-                  <td>Name of the passenger</td>
-                </tr>
-                <tr>
-                  <td>Sex</td>
-                  <td>Binary</td>
-                  <td>Sex of the passenger (female, male)</td>
-                </tr>
-                <tr>
-                  <td>Age</td>
-                  <td>Continuous</td>
-                  <td>Age of the passenger in years</td>
-                </tr>
-                <tr>
-                  <td>SibSp</td>
-                  <td>Discrete</td>
-                  <td>Number of siblings and spouses on the Titanic</td>
-                </tr>
-                <tr>
-                  <td>Parch</td>
-                  <td>Discrete</td>
-                  <td>Number of parents and children on the Titanic</td>
-                </tr>
-                <tr>
-                  <td>Ticket</td>
-                  <td>Discrete</td>
-                  <td>Ticket Number</td>
-                </tr>
-                <tr>
-                  <td>Fare</td>
-                  <td>Continuous</td>
-                  <td>Cost of the ticket</td>
-                </tr>
-                <tr>
-                  <td>Cabin</td>
-                  <td>Discrete</td>
-                  <td>Cabin Number</td>
-                </tr>
-                <tr>
-                  <td>Embarked</td>
-                  <td>Nominal</td>
-                  <td>Port the passenger embarked from.</td>
-                </tr>
-              </tbody>
-              </table>
+          <h3>Types and Descriptions</h3>
+          <p class="lead">Discover the meanings behind the features.</p>
+          <p><a class="btn btn-secondary" data-toggle="collapse" aria-expanded="true" aria-controls="data-feature-desc" href="#data-feature-desc" role="button">See More &raquo;</a>
+            <div class="collapse" id="data-feature-desc">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Feature</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>PassengerId</td>
+                    <td>Unique</td>
+                    <td>The ID of the passenger</td>
+                  </tr>
+                  <tr>
+                    <td>Survived</td>
+                    <td>Binary</td>
+                    <td>Survival (0 = No, 1 = Yes)</td>
+                  </tr>
+                  <tr>
+                    <td>Pclass</td>
+                    <td>Ordinal</td>
+                    <td>Class of the Ticket (1 = 1st class (upper), 2 = 2nd class (middle), 3 = 3rd class (lower))</td>
+                  </tr>
+                  <tr>
+                    <td>Name</td>
+                    <td>Unique</td>
+                    <td>Name of the passenger</td>
+                  </tr>
+                  <tr>
+                    <td>Sex</td>
+                    <td>Binary</td>
+                    <td>Sex of the passenger (female, male)</td>
+                  </tr>
+                  <tr>
+                    <td>Age</td>
+                    <td>Continuous</td>
+                    <td>Age of the passenger in years</td>
+                  </tr>
+                  <tr>
+                    <td>SibSp</td>
+                    <td>Discrete</td>
+                    <td>Number of siblings and spouses on the Titanic</td>
+                  </tr>
+                  <tr>
+                    <td>Parch</td>
+                    <td>Discrete</td>
+                    <td>Number of parents and children on the Titanic</td>
+                  </tr>
+                  <tr>
+                    <td>Ticket</td>
+                    <td>Discrete</td>
+                    <td>Ticket Number</td>
+                  </tr>
+                  <tr>
+                    <td>Fare</td>
+                    <td>Continuous</td>
+                    <td>Cost of the ticket</td>
+                  </tr>
+                  <tr>
+                    <td>Cabin</td>
+                    <td>Discrete</td>
+                    <td>Cabin Number</td>
+                  </tr>
+                  <tr>
+                    <td>Embarked</td>
+                    <td>Nominal</td>
+                    <td>Port the passenger embarked from.</td>
+                  </tr>
+                </tbody>
+                </table>
+              </div>
             </div>
           </p>
+          <hr class="featurette-subdivider">
+          <h3>Errors and Missing Values</h3>
+          <p class="lead">See how often a value is missing.</p>
+          <p><a class="btn btn-secondary" data-toggle="collapse" aria-expanded="true" aria-controls="data-feature-desc" href="#data-feature-err" role="button">See More &raquo;</a>
+          </p>
+          <div class="collapse" id="data-feature-err">
+            <div class="row">
+              <div class="table-responsive col-md-7">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Feature</th>
+                      <th>Not Errors</th>
+                      <th>Completeness</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>PassengerId    </td><td>891</td><td>100%</td></tr>
+                    <tr><td>Survived       </td><td>891</td><td>100%</td></tr>
+                    <tr><td>Pclass         </td><td>891</td><td>100%</td></tr>
+                    <tr><td>Name           </td><td>891</td><td>100%</td></tr>
+                    <tr><td>Sex            </td><td>891</td><td>100%</td></tr>
+                    <tr><td>Age            </td><td>714</td><td>80.13%</td></tr>
+                    <tr><td>SibSp          </td><td>891</td><td>100%</td></tr>
+                    <tr><td>Parch          </td><td>891</td><td>100%</td></tr>
+                    <tr><td>Ticket         </td><td>891</td><td>100%</td></tr>
+                    <tr><td>Fare           </td><td>891</td><td>100%</td></tr>
+                    <tr><td>Cabin          </td><td>204</td><td>22.90%</td></tr>
+                    <tr><td>Embarked       </td><td>889</td><td>99.78%</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-5">
+                <!-- <svg id="svg-missing-data" width="450" height="250"></svg> -->
+                <div id="feature-missing"></div>
+              </div>
+            </div>
+          </div>
+          <hr class="featurette-subdivider">
+          <h3>Uniqueness</h3>
+          <p class="lead">Determine how often a value occurs.</p>
+          <p><a class="btn btn-secondary" data-toggle="collapse" aria-expanded="true" aria-controls="data-feature-desc" href="#data-feature-uniq" role="button">See More &raquo;</a></p>
+          <div class="collapse" id="data-feature-uniq">
+            <div class="row">
+              <div class="table-responsive col-md-7">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Feature</th>
+                      <th>Unique Entries</th>
+                      <th>Uniqueness</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>PassengerId    </td><td>891</td><td>100%</td></tr>
+                    <tr><td>Survived       </td><td>2</td><td>0%</td></tr>
+                    <tr><td>Pclass         </td><td>3</td><td>0%</td></tr>
+                    <tr><td>Name           </td><td>891</td><td>100%</td></tr>
+                    <tr><td>Sex            </td><td>2</td><td>0%</td></tr>
+                    <tr><td>Age            </td><td>N/A</td><td>N/A</td></tr>
+                    <tr><td>SibSp          </td><td>7</td><td>0.01%</td></tr>
+                    <tr><td>Parch          </td><td>7</td><td>0.01%</td></tr>
+                    <tr><td>Ticket         </td><td>681</td><td>76.43%%</td></tr>
+                    <tr><td>Fare           </td><td>N/A</td><td>N/A</td></tr>
+                    <tr><td>Cabin          </td><td>147</td><td>72.06%</td></tr>
+                    <tr><td>Embarked       </td><td>3</td><td>0%</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-5">
+                <div id="feature-unique"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -155,7 +233,6 @@
       <div class="row featurette">
         <div class="col-md-12">
           <h2 class="featurette-heading">Data Processing</h2>
-          <hr class="featurette-subdivider">
           <h3>Feature Reconstruction</h3>
           <p class="lead">
             We take important features that are incomplete, and use various methods to reconstruct the missing fields in the most accurate way possible.
@@ -192,9 +269,9 @@
         <div class="col-md-7">
           <h2 class="featurette-heading">Results<span class="text-muted"></span></h2>
           <p class="lead">
-            And the winner is...Decision Tree with 90.57% training accuracy!
+            And the winner is...Classifier #9 (Decision Tree) with 90.57% training accuracy!
           </p>
-          <p>However Random forest with a 89.9% training accuracy score was chosen, since this classifier is a more generalized approach to the Decision Tree.</p>
+          <p>However Random Forest (#10) with a 89.9% training accuracy score was chosen for submission, since this classifier is a more generalized approach to the Decision Tree.</p>
           <p><a class="btn btn-secondary" href="#data-preprocessing" role="button">See the Methdology &raquo;</a></p>
           <p><a class="btn btn-secondary" href="#data-preprocessing" role="button">See the Data &raquo;</a></p>
         </div>

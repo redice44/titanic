@@ -1,3 +1,54 @@
+function makeBarGraph(element, data, xField, yField, setWidth, setHeight, label) {
+  // set the dimensions and margins of the graph
+  var margin = {top: 20, right: 20, bottom: 30, left: 40};
+  var width = setWidth - margin.left - margin.right;
+  var height = setHeight - margin.top - margin.bottom;
+
+  var x = d3.scaleBand()
+            .range([0, width])
+            .padding(0.1);
+  var y = d3.scaleLinear()
+            .range([height, 0]);
+
+  var svg = d3.select("#"+ element).append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+  x.domain(data.map(function(d) { return d[xField]; }));
+  y.domain([50, d3.max(data, function(d) { return d[yField]; })]);
+
+  svg.selectAll(".bar")
+    .data(data)
+  .enter().append("rect")
+    .attr("class", "bar")
+    .attr("x", function(d) { return x(d[xField]); })
+    .attr("width", x.bandwidth())
+    .attr("y", function(d) { return y(d[yField]); })
+    .attr("height", function(d) { return height - y(d[yField]); })
+    .style("fill", function(d, i) { return color(i); });
+
+  // add the x Axis
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+  // add the y Axis
+  svg.append("g")
+    .call(d3.axisLeft(y))
+  .append("text")
+    .attr("x", -30)
+    .attr("y", -10)
+    .attr("dy", "0.32em")
+    .attr("fill", "#000")
+    .attr("font-weight", "bold")
+    .attr("text-anchor", "start")
+    .text(label);;
+}
+
 function makeStackedBarGraph(svg, data, key, field) {
   var margin = {top: 20, right: 20, bottom: 40, left: 50};
   var width = +svg.attr("width") - margin.left - margin.right;
@@ -203,75 +254,59 @@ dataSets = dataSets.map(function(ds) {
 //   makeStackedBarGraph(d3.select('#svg' + (i+1)), d.data, d.key, d.label);
 // });
 
-var data = [
-  {"Model":"9", "Accuracy": 90.57 },
-  {"Model":"10", "Accuracy": 89.90 },
-  {"Model":"1", "Accuracy": 87.32 },
-  {"Model":"2", "Accuracy": 85.86 },
-  {"Model":"3", "Accuracy": 85.52 },
-  {"Model":"0", "Accuracy": 84.62 },
-  {"Model":"4", "Accuracy": 84.62 },
-  {"Model":"13", "Accuracy": 83.50 },
-  {"Model":"11", "Accuracy": 83.39 },
-  {"Model":"16", "Accuracy": 83.28 },
-  {"Model":"14", "Accuracy": 81.59 },
-  {"Model":"12", "Accuracy": 81.26 },
-  {"Model":"7", "Accuracy": 80.58 },
-  {"Model":"5", "Accuracy": 79.69 },
-  {"Model":"6", "Accuracy": 78.0 },
-  {"Model":"15", "Accuracy": 61.62 },
-  {"Model":"8", "Accuracy": 58.81 }
-];
-
-// set the dimensions and margins of the graph
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 500 - margin.left - margin.right,
-    height = 350 - margin.top - margin.bottom;
-
-// set the ranges
-var x = d3.scaleBand()
-          .range([0, width])
-          .padding(0.1);
-var y = d3.scaleLinear()
-          .range([height, 0]);
-          
-// append the svg object to the body of the page
-// append a 'group' element to 'svg'
-// moves the 'group' element to the top left margin
-var svg = d3.select("#model-chart").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", 
-          "translate(" + margin.left + "," + margin.top + ")");
-
-  var color = d3.scaleOrdinal(d3.schemeCategory20);
+var stackedBarGraphData = {
+  missingData: [
+    {"Feature":"Age", "Found": 714},
+    {"Feature":"Cabin", "Found": 204},
+    {"Feature":"Embarked", "Found": 889}
+  ]
+};
 
 
-  // Scale the range of the data in the domains
-  x.domain(data.map(function(d) { return d.Model; }));
-  y.domain([0, d3.max(data, function(d) { return d.Accuracy; })]);
 
-  // append the rectangles for the bar chart
-  svg.selectAll(".bar")
-      .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.Model); })
-      .attr("width", x.bandwidth())
-      .attr("y", function(d) { return y(d.Accuracy); })
-      .attr("height", function(d) { return height - y(d.Accuracy); })
-      .style("fill", function(d, i) { return color(i); });
+var barGraphData = {
+  modelData: [
+    {"Model":"9", "Accuracy": 90.57 },
+    {"Model":"10", "Accuracy": 89.90 },
+    {"Model":"1", "Accuracy": 87.32 },
+    {"Model":"2", "Accuracy": 85.86 },
+    {"Model":"3", "Accuracy": 85.52 },
+    {"Model":"0", "Accuracy": 84.62 },
+    {"Model":"4", "Accuracy": 84.62 },
+    {"Model":"13", "Accuracy": 83.50 },
+    {"Model":"11", "Accuracy": 83.39 },
+    {"Model":"16", "Accuracy": 83.28 },
+    {"Model":"14", "Accuracy": 81.59 },
+    {"Model":"12", "Accuracy": 81.26 },
+    {"Model":"7", "Accuracy": 80.58 },
+    {"Model":"5", "Accuracy": 79.69 },
+    {"Model":"6", "Accuracy": 78.0 },
+    {"Model":"15", "Accuracy": 61.62 },
+    {"Model":"8", "Accuracy": 58.81 }
+  ],
+  missingData: [
+    {"Feature":"Age", "Found": 714},
+    {"Feature":"Cabin", "Found": 204},
+    {"Feature":"Embarked", "Found": 889}
+  ],
+  uniqueData: [
+    {"Feature":"PassengerId", "Found": 891},
+    {"Feature":"Name", "Found": 891},
+    {"Feature":"Ticket", "Found": 681},
+    {"Feature":"Cabin", "Found": 147}
+  ]
+};
 
-  // add the x Axis
-  svg.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
+barGraphData.missingData = barGraphData.missingData.map(function(d) {
+  d.Missing = 891 - d.Found;
+  return d;
+});
 
-  // add the y Axis
-  svg.append("g")
-      .call(d3.axisLeft(y));
 
+makeBarGraph('model-chart', barGraphData.modelData, 'Model', 'Accuracy', 400, 250);
+// makeStackedBarGraph(d3.select('#svg-missing-data'), stackedBarGraphData.missingData, ['Found', 'Missing'], 'Feature');
+makeBarGraph('feature-missing', barGraphData.missingData, 'Feature', 'Missing', 400, 250, 'Missing Data Points');
+makeBarGraph('feature-unique', barGraphData.uniqueData, 'Feature', 'Found', 400, 250, 'Unique Data Points');
 
 
 

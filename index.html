@@ -14,17 +14,17 @@
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" href="#">Titanic</a>
+      <a class="navbar-brand" href="https://github.com/redice44/titanic" target="_blank">Titanic</a>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="data-processing.html">Preprocessing</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
+            <a class="nav-link" href="results.html">Results</a>
           </li>
         </ul>
       </div>
@@ -46,23 +46,25 @@
     <div class="container marketing">
       <div class="row">
         <div class="col-lg-4">
-          <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
           <h2>Descriptions</h2>
           <p>Take a journey through the data of the RMS Titanic.</p>
-          <p><a class="btn btn-secondary" href="#data-description" role="button">View More &raquo;</a></p>
+          
         </div>
         <div class="col-lg-4">
-          <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
           <h2>Preprocessing</h2>
           <p>How the data was processed to be presented to various models.</p>
-          <p><a class="btn btn-secondary" href="#data-preprocessing" role="button">View details &raquo;</a></p>
+          
         </div>
         <div class="col-lg-4">
-          <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
           <h2>Results</h2>
           <p>However when combining these two features, we see that there is a more clear picture of how these two features predict survival.</p>
-          <p><a class="btn btn-secondary" href="#results" role="button">View details &raquo;</a></p>
+          
         </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4"><p><a class="btn btn-secondary" href="#data-description" role="button">View Details &raquo;</a></p></div>
+        <div class="col-lg-4"><p><a class="btn btn-secondary" href="#data-preprocessing" role="button">View Details &raquo;</a></p></div>
+        <div class="col-lg-4"><p><a class="btn btn-secondary" href="#results" role="button">View Details &raquo;</a></p></div>
       </div>
 
       <a name="data-description"></a>
@@ -228,7 +230,7 @@
       </div>
 
       <a name="data-preprocessing"></a>
-      <hr class="featurette-subdivider">
+      <hr class="featurette-divider">
 
       <div class="row featurette">
         <div class="col-md-12">
@@ -236,30 +238,27 @@
           <h3>Feature Reconstruction</h3>
           <p class="lead">
             We take important features that are incomplete, and use various methods to reconstruct the missing fields in the most accurate way possible.
-            <p><a class="btn btn-secondary" href="#data-preprocessing" role="button">Find Out How &raquo;</a></p>
-          </p>
-          <hr class="featurette-subdivider">
-          <h3>Feature Generation</h3>
-          <p class="lead">
-            We take related features and combine them in various ways to create a new field.
-            <p><a class="btn btn-secondary" href="#data-preprocessing" role="button">Learn More &raquo;</a></p>
+            <p><a class="btn btn-secondary" href="data-processing.html#reconstruction" role="button">Find Out How &raquo;</a></p>
           </p>
           <hr class="featurette-subdivider">
           <h3>Feature Transformation</h3>
           <p class="lead">
             We take many features and transform them into more managable representations for the classifiers.
-            <p><a class="btn btn-secondary" href="#data-preprocessing" role="button">See the Change &raquo;</a></p>
+            <p><a class="btn btn-secondary" href="data-processing.html#transformation" role="button">See the Change &raquo;</a></p>
+          </p>
+          <hr class="featurette-subdivider">
+          <h3>Feature Generation</h3>
+          <p class="lead">
+            We take related features and combine them in various ways to create a new field.
+            <p><a class="btn btn-secondary" href="data-processing.html#generation" role="button">What is New &raquo;</a></p>
           </p>
           <hr class="featurette-subdivider">
           <h3>Feature Reduction</h3>
           <p class="lead">
             Finally, we remove features from the dataset before using the data in the classifiers.
-            <p><a class="btn btn-secondary" href="#data-preprocessing" role="button">See What's Left &raquo;</a></p>
+            <p><a class="btn btn-secondary" href="data-processing.html#reduction" role="button">See What's Left &raquo;</a></p>
           </p>
         </div>
-    <!--     <div class="col-md-5 pull-md-7">
-          
-        </div> -->
       </div>
 
       <a name="results"></a>
@@ -271,9 +270,9 @@
           <p class="lead">
             And the winner is...Classifier #9 (Decision Tree) with 90.57% training accuracy!
           </p>
-          <p>However Random Forest (#10) with a 89.9% training accuracy score was chosen for submission, since this classifier is a more generalized approach to the Decision Tree.</p>
-          <p><a class="btn btn-secondary" href="#data-preprocessing" role="button">See the Methdology &raquo;</a></p>
-          <p><a class="btn btn-secondary" href="#data-preprocessing" role="button">See the Data &raquo;</a></p>
+          <p>However Random Forest (#10) with a 90.01% training accuracy score was chosen for submission, since this classifier is a more generalized approach to the Decision Tree.</p>
+          <p><a class="btn btn-secondary" href="results.html" role="button">See the Methodology &raquo;</a></p>
+          <p><a class="btn btn-secondary" href="results.html#data" role="button">See the Data &raquo;</a></p>
         </div>
         <div class="col-md-5">
           <div id="model-chart"></div>
@@ -285,7 +284,7 @@
       <footer class="text-muted">
         <div class="container">
           <p class="float-right"><a href="#">Back to top</a></p>
-          <p>Matt Thomson &middot; <a href="#" target="_blank">Project</a> &middot; <a href="https://github.com/redice44" target="_blank">Github</a> &middot; <a href="https://twitter.com/RedIce44" target="_blank">Twitter</a></p>
+          <p>Matt Thomson &middot; <a href="./assets/Report.pdf" target="_blank">Report</a> &middot; <a href="https://github.com/redice44" target="_blank">Github</a> &middot; <a href="https://twitter.com/RedIce44" target="_blank">Twitter</a></p>
         </div>
       </footer>
 
@@ -295,6 +294,15 @@
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/d3.min.js"></script>
     <script src="./js/data.js"></script>
+    <script type="text/javascript">
+      var barcolor = function(d, i) {
+        var color = d3.scaleOrdinal(d3.schemeCategory20).domain([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]);
+        return color(d.Model); 
+      };
+      makeBarGraph('model-chart', barGraphData.modelData, 'Model', 'Accuracy', 400, 250, '', barcolor);
+      makeBarGraph('feature-missing', barGraphData.missingData, 'Feature', 'Missing', 400, 250, 'Missing Data Points');
+      makeBarGraph('feature-unique', barGraphData.uniqueData, 'Feature', 'Found', 400, 250, 'Unique Data Points');
+    </script>
   </body>
   </body>
 </html>

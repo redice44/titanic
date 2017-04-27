@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Data Mining Final Project</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link href="./css/carousel.css" rel="stylesheet">
+    <link href="./css/dashboard.css" rel="stylesheet">
+    <link href="./css/custom.css" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="https://github.com/redice44/titanic" target="_blank">Titanic</a>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="data-processing.html">Preprocessing <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="results.html">Results</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="10000">
+      <div class="carousel-inner" role="listbox">
+        <div class="carousel-item active">
+          <div class="container">
+            <div class="carousel-caption d-none d-md-block text-left">
+              <h1>Data Processing</h1>
+              <p>This process was broken into four major steps, Feature Reconstruction, Feature Transformation, Feature Generation, and Feature Reduction, where some or all of them were applied to each feature or set of features.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container marketing">
+
+      <a name="reconstruction"></a>
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Data Processing</h2>
+          <h3>Feature Reconstruction</h3>
+          <p class="lead">The goal of feature reconstruction is to most accurately complete missing values in the dataset. The Age, Fare, and Embarked features had to be reconstructed in this manner.
+          </p>
+          <p>It was decided that the Age feature is to be reconstructed based on the mean age of the person's Sex and Class features. For example, if the person is a female in second class without an age, the age for this person would be reconstructed as the mean age of all females in second class.</p>
+          <p><a name="transformation"></a>The Fare feature was reconstructed in the same way as the Age feature.</p>
+          <p>The Embarked feature was reconstructed as the mode of the Embarked feature.</p>
+          
+          <hr class="featurette-subdivider">
+          <h3>Feature Transformation</h3>
+          <p class="lead">The goal of Feature Transformation is to map the current values in the feature to a to a set of values that are able to be handled by the classifiers. This is often a set of small integers.<a name="generation"></a></p>
+          <p>Often times the data needs to be converted from continuous data to a discrete set. For this dataset, almost every feature underwent a feature transformation.</p>
+          
+          <hr class="featurette-subdivider">
+          <h3>Feature Generation</h3>
+          <p class="lead">The goal of Feature Generation is to take one or more features and combine them in such a way that they create one impactful feature. This project creates three new features, Sex-Class, Family, and Title.</p>
+          <p>Sex-Class is all combinations of the Sex and Pclass features. This feature more distinctly separates people.</p>
+          <p>Family Size is the number of spouses and siblings (SibSp) plus the number of parents and children (Parch) plus the person to get an estimated family size.<a name="reduction"></a></p>
+          <p>Title is the title that the person goes by. For example, Mr., Mrs, Miss, etc. This feature was inspired by <a href="https://www.kaggle.com/mrisdal/titanic/exploring-survival-on-the-titanic" target="_blank">Megan L. Risdal's kernel report</a>. Although the implementation is a bit different, the idea behind it is largely the same.</p>
+          
+          <hr class="featurette-subdivider">
+          <h3>Feature Reduction</h3>
+          <p class="lead">The goal of Feature Reduction is to reduce the dimensionality of the dataset before running it through various classifiers. This improves performance times of the classifiers as well as hopes to avoid problems related to the curse of dimensionality.</p>
+          <p>Many features were ultimately removed from the dataset, but most persisted through Feature Generation or Feature Transformation. In the end only the Embarked feature remained unmodified.</p>
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Details<span class="text-muted"></span></h2>
+          <h3>Sex Feature</h3>
+          <div class="row">
+            <div class="col-md-7">
+              <p class="lead">The Sex feature is one of the most influential features in this dataset. Care was taken to not use this influence to skew any other features. In the end Sex was combined with Pclass to generate a new, nominal, feature called SexClass. The original feature, Sex, was removed from the dataset during the Feature Reduction stage.</p>
+            </div>
+            <div class="col-md-5">
+              <svg id="sex-bar-graph" width="450" height="250"></svg>
+            </div>
+          </div>
+          <hr class="featurette-subdivider">
+          <h3>Pclass Feature</h3>
+          <div class="row">
+            <div class="col-md-7">
+              <p class="lead">The class feature was used to create the SexClass feature as stated above. It was also removed from the dataset during the Feature Reduction stage.</p>
+          </div>
+            <div class="col-md-5">
+              <svg id="pclass-bar-graph" width="450" height="250"></svg>
+            </div>
+          </div>
+          <hr class="featurette-subdivider">
+          <h3>SexClass Generated Feature</h3>
+          <div class="row">
+            <div class="col-md-7">
+              <p class="lead">This feature was used to help reconstruct the Age and Fare features. The mean values of the respective features were used in place of erroneous or empty pieces of data.</p>
+          </div>
+            <div class="col-md-5">
+              <svg id="sex-class-bar-graph" width="450" height="250"></svg>
+            </div>
+          </div>
+          <hr class="featurette-subdivider">
+          <h3>Age Feature</h3>
+          <div class="row">
+            <div class="col-md-7">
+              <p class="lead">This feature was transformed from a continuous feature to two different discrete features, AgeRange and AgeFreq. The distribution in the AgeRange feature was based on equal years per range, whereas the AgeFreq feature was based on equal quantities of people per range.</p>
+              <p class="lead">It was analyzed that the AgeFreq distribution gave a more informative separation of age than AgeRange did. Therefore AgeFreq feature replaced the Age feature in the dataset.</p>
+          </div>
+            <div class="col-md-5">
+              <svg id="age-bar-graph" width="450" height="250"></svg>
+            </div>
+          </div>
+          <hr class="featurette-subdivider">
+          <h3>Fare Feature</h3>
+          <div class="row">
+            <div class="col-md-7">
+              <p class="lead">This feature underwent the same distributions and analysis as the Age feature. It was also concluded that the FareFreq distribution was more telling than the FareRange feature. Therefore the FareFreq feature replaced the Fare feature in the dataset.</p>
+          </div>
+            <div class="col-md-5">
+              <svg id="fare-bar-graph" width="450" height="250"></svg>
+            </div>
+          </div>
+          <hr class="featurette-subdivider">
+          <h3>SibSp and Parch Features</h3>
+          <div class="row">
+            <div class="col-md-7">
+              <p class="lead">Neither of these discrete features needed any transformations, however they were used to create a new feature of Family Size. They were both removed from the dataset during the Feature Reduction stage.</p>
+          </div>
+            <div class="col-md-5">
+              <svg id="family-bar-graph" width="450" height="250"></svg>
+            </div>
+          </div>
+          <hr class="featurette-subdivider">
+          <h3>Embarked Feature</h3>
+          <div class="row">
+            <div class="col-md-7">
+              <p class="lead">This feature had to have some fields reconstructed. This was done so by taking the mode of the feature and applying it to erroneous or empty fields. </p>
+              <p class="lead">The feature was also transformed to a discrete integer set for processing by classifiers.</p>
+          </div>
+            <div class="col-md-5">
+              <svg id="embarked-bar-graph" width="450" height="250"></svg>
+            </div>
+          </div>
+          <hr class="featurette-subdivider">
+          <h3>Name Feature</h3>
+          <div class="row">
+            <div class="col-md-7">
+              <p class="lead">The Name feature was transformed to only represent the title of the person. This created a fairly diverse set of titles. It was decided to condense most of the infrequent titles into an other category. The Name feature was removed from the dataset during the Feature Reduction stage.</p>
+          </div>
+            <div class="col-md-5">
+              <svg id="title-bar-graph" width="450" height="250"></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <footer class="text-muted">
+        <div class="container">
+          <p class="float-right"><a href="#">Back to top</a></p>
+          <p>Matt Thomson &middot; <a href="./assets/Report.pdf" target="_blank">Report</a> &middot; <a href="https://github.com/redice44" target="_blank">Github</a> &middot; <a href="https://twitter.com/RedIce44" target="_blank">Twitter</a></p>
+        </div>
+      </footer>
+
+    </div>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <script src="./js/tether.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/d3.min.js"></script>
+    <script src="./js/data.js"></script>
+    <script type="text/javascript">
+      makeStackedBarGraph(d3.select('#sex-bar-graph'), stackedBarGraphData.sexData, ['Survived', 'Died'], 'Sex');
+      makeStackedBarGraph(d3.select('#pclass-bar-graph'), stackedBarGraphData.pclassData, ['Survived', 'Died'], 'Pclass');
+      makeStackedBarGraph(d3.select('#sex-class-bar-graph'), stackedBarGraphData.sexclassData, ['Survived', 'Died'], 'SexClass');
+      makeStackedBarGraph(d3.select('#age-bar-graph'), stackedBarGraphData.ageData, ['Survived', 'Died'], 'Age');
+      makeStackedBarGraph(d3.select('#fare-bar-graph'), stackedBarGraphData.fareData, ['Survived', 'Died'], 'Fare');
+      makeStackedBarGraph(d3.select('#family-bar-graph'), stackedBarGraphData.familyData, ['Survived', 'Died'], 'Family');
+      makeStackedBarGraph(d3.select('#embarked-bar-graph'), stackedBarGraphData.embarkedData, ['Survived', 'Died'], 'Embarked');
+      makeStackedBarGraph(d3.select('#title-bar-graph'), stackedBarGraphData.titleData, ['Survived', 'Died'], 'Title');
+    </script>
+  </body>
+  </body>
+</html>

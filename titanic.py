@@ -353,3 +353,12 @@ crossValidations = [
 # Get the mean of all of the cross validations
 print(pd.concat(list(map(lambda s: s[1], crossValidations))).groupby(['Model']).agg([np.mean]).sort_values(by=[('Score', 'mean')], ascending=False))
 saveFiles(pd.concat(list(map(lambda s: s[1], crossValidations))).groupby(['Model']).agg([np.mean]).sort_values(by=[('Score', 'mean')], ascending=False), 'cross-validation')
+
+# Create Submission File
+# Index of the classifer to submit
+classifier = 13
+submission = pd.DataFrame({
+  "PassengerId": testing_features["PassengerId"],
+  "Survived": fullValidation[0][classifier][1]
+})
+submission.to_csv('./data/submission.csv', index=False)
